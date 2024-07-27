@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+
+# Environment file
+.env
+
+# Firebase config
+**/firebase-service-account-key.json
+**/firebase-config.js
+
+*.log
+
+# Build directories
+/build
+/dist
+
+.cache/
+
+# IDE
+.vscode/
+.idea/
+
+# Operation system's files
+.DS_Store
+Thumbs.db
+
+# npm files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# React
+/client/build
+
+*.tmp
+*.temp
