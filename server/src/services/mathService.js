@@ -1,52 +1,37 @@
-// const firebaseService = require('./firebase');
-
-// class MathService {
-//   async getRandomProblem() {
-//     // TODO: Implement logic to fetch a random math problem from Firebase
-//     return { question: "What is 2 + 2?", answer: 4 };
-//   }
-
-//   async checkAnswer(problemId, userAnswer) {
-//     // TODO: Implement logic to check the user's answer
-//     return { correct: true, explanation: "Good job!" };
-//   }
-
-//   // TODO: Add more methods as needed
-// }
-
-// module.exports = new MathService();
+const admin = require('../config/firebase-config');
+const db = admin.firestore();
 
 class MathService {
-    constructor() {
-      this.problems = new Map();
-    }
-  
-    getRandomProblem() {
-      const a = Math.floor(Math.random() * 10) + 1;
-      const b = Math.floor(Math.random() * 10) + 1;
-      const operation = Math.random() < 0.5 ? '+' : '-';
-      const problem = {
-        id: Date.now().toString(),
-        question: `What is ${a} ${operation} ${b}?`,
-        answer: operation === '+' ? a + b : a - b
-      };
-      this.problems.set(problem.id, problem);
-      return { id: problem.id, question: problem.question };
-    }
-  
-    checkAnswer(problemId, userAnswer) {
-      const problem = this.problems.get(problemId);
-      if (!problem) {
-        return { error: 'Problem not found' };
-      }
-      const correct = parseInt(userAnswer) === problem.answer;
-      return {
-        correct,
-        correctAnswer: problem.answer,
-        explanation: correct ? 'Great job!' : `The correct answer is ${problem.answer}.`
-      };
-    }
+  async getRandomProblem() {
+    const a = Math.floor(Math.random() * 10) + 1;
+    const b = Math.floor(Math.random() * 10) + 1;
+    const operation = Math.random() < 0.5 ? '+' : '-';
+    const problem = {
+      question: `What is ${a} ${operation} ${b}?`,
+      answer: operation === '+' ? a + b : a - b
+    };
+
+    const docRef = await db.collection('problems').add(problem);
+    return { id: docRef.id, question: problem.question };
   }
-  
-  module.exports = new MathService();
-  
+
+  async checkAnswer(problemId, userAnswer) {
+    const docRef = db.collection('problems').doc(problemId);
+    const doc = await docRef.get();
+
+    if (!doc.exists) {
+      return { error: 'Problem not found' };
+    }
+
+    const problem = doc.data();
+    const correct = parseInt(userAnswer) === problem.answer;
+
+    return {
+      correct,
+      correctAnswer: problem.answer,
+      explanation: correct ? 'Great job!' : `The correct answer is ${problem.answer}.`
+    };
+  }
+}
+
+module.exports = new MathService();

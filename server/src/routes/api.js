@@ -1,17 +1,26 @@
 const express = require('express');
 const router = express.Router();
-const mathService = require('../services/mathService')
+const mathService = require('../services/mathService');
 
-router.get('/problem', (req, res) => {
-    const problem = mathService.getRandomProblem();
+router.get('/problem', async (req, res) => {
+  try {
+    const problem = await mathService.getRandomProblem();
     res.json(problem);
-  });
-  
-  router.post('/check-answer', (req, res) => {
+  } catch (error) {
+    console.error('Error fetching problem:', error);
+    res.status(500).json({ error: 'Failed to fetch problem' });
+  }
+});
+
+router.post('/check-answer', async (req, res) => {
+  try {
     const { problemId, answer } = req.body;
-    const result = mathService.checkAnswer(problemId, answer);
+    const result = await mathService.checkAnswer(problemId, answer);
     res.json(result);
-  });
-  
-  module.exports = router;
-  
+  } catch (error) {
+    console.error('Error checking answer:', error);
+    res.status(500).json({ error: 'Failed to check answer' });
+  }
+});
+
+module.exports = router;
