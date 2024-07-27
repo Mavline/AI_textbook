@@ -1,8 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
-const { initializeApp } = require('firebase-admin/app');
-const firebaseConfig = require('./config/firebase-config');
+//const { initializeApp } = require('firebase-admin/app');
+//const firebaseConfig = require('./config/firebase-config');
 const apiRoutes = require('./routes/api');
 
 // Load environment variables
@@ -12,11 +12,17 @@ const app = express();
 const port = process.env.PORT || 3001;
 
 // Initialize Firebase
-initializeApp(firebaseConfig);
+//initializeApp(firebaseConfig);
 
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+
+// const serviceAccount = require('../path/to/your/serviceAccountKey.json');
+// firebaseAdmin.initializeApp({
+//   credential: firebaseAdmin.credential.cert(serviceAccount)
+// });
 
 // API routes
 app.use('/api', apiRoutes);

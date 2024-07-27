@@ -7,4 +7,6 @@ const firebaseConfig = {
   databaseURL: "https://your-project-id.firebaseio.com"
 };
 
-module.exports = firebaseConfig;
+module.exports = {
+  credential: admin.credential.cert(serviceAccount),
+};
