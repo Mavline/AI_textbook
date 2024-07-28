@@ -32,6 +32,19 @@ class MathService {
       explanation: correct ? 'Great job!' : `The correct answer is ${problem.answer}.`
     };
   }
+
+  async getBookStructure() {
+    const chaptersSnapshot = await db.collection('book').get();
+    const chapters = [];
+    for (const chapterDoc of chaptersSnapshot.docs) {
+      const chapter = chapterDoc.data();
+      chapter.id = chapterDoc.id;
+      const sectionsSnapshot = await chapterDoc.ref.collection('sections').get();
+      chapter.sections = sectionsSnapshot.docs.map(doc => ({id: doc.id, ...doc.data()}));
+      chapters.push(chapter);
+    }
+    return chapters;
+  }
 }
 
 module.exports = new MathService();

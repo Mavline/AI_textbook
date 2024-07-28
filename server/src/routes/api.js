@@ -23,4 +23,14 @@ router.post('/check-answer', async (req, res) => {
   }
 });
 
+router.get('/book-structure', async (req, res) => {
+  try {
+    const structure = await mathService.getBookStructure();
+    res.json(structure);
+  } catch (error) {
+    console.error('Error fetching book structure:', error);
+    res.status(500).json({ error: 'Failed to fetch book structure' });
+  }
+});
+
 module.exports = router;
