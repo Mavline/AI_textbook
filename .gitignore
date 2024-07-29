@@ -34,3 +34,7 @@ yarn-error.log*
 
 *.tmp
 *.temp
+
+# data
+/data/*.pdf
+/data/*.json
