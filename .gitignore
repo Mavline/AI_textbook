@@ -38,3 +38,4 @@ yarn-error.log*
 # data
 /data/*.pdf
 /data/*.json
+*firebase-adminsdk*.json
