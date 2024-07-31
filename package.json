@@ -151,6 +151,7 @@
     "type-is": "^1.6.18",
     "undici-types": "^5.26.5",
     "unpipe": "^1.0.0",
+    "utf8": "^3.0.0",
     "util-deprecate": "^1.0.2",
     "utils-merge": "^1.0.1",
     "uuid": "^10.0.0",
