@@ -39,3 +39,4 @@ yarn-error.log*
 /data/*.pdf
 /data/*.json
 *firebase-adminsdk*.json
+.venv/
